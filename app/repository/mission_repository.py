@@ -59,18 +59,19 @@ def create_mission(mission: Mission) -> Maybe[Mission]:
             return Failure(str(e))
 
 
-def update_mission_by_id(mission_id, attack_result_data):
+def update_mission_by_id(mission_id, attack_result_data) -> Success[Mission]:
     try:
         with session_maker() as session:
             attack_result = session.query(Mission).filter_by(mission_id=mission_id).first()
             if not attack_result:
-                raise Failure("Mission result not found")
+                return Failure("Mission result not found")
             for key, value in attack_result_data.items():
                 setattr(attack_result, key, value)
             session.commit()
             session.refresh(attack_result)
-            return attack_result
+            return Success(attack_result)
     except SQLAlchemyError as e:
+        session.rollback()
         return Failure(str(e))
 
 
