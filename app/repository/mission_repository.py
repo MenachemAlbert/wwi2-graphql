@@ -18,9 +18,16 @@ def get_mission_by_date_range(start_date: date, end_date: date) -> List[Mission]
         return session.query(Mission).filter(Mission.mission_date.between(start_date, end_date)).all()
 
 
-def get_missions_by_county(country: str):
+def get_missions_by_county(country: str) -> List[Mission]:
     with session_maker() as session:
         return (session.query(Mission)
                 .join(Mission.targets)
                 .join(Target.city)
                 .join(City.country).filter(Country.country_name == country).all())
+
+
+def get_missions_by_target_industry(target_industry: str) -> List[Mission]:
+    with session_maker() as session:
+        return (session.query(Mission)
+                .join(Mission.targets)
+                .filter(Target.target_industry == target_industry).all())
