@@ -9,7 +9,7 @@ class Target(Base):
     target_id = Column(Integer, Sequence('target_id_seq'), primary_key=True)
     target_industry = Column(String, nullable=False)
     city_id = Column(Integer, ForeignKey('cities.city_id'), nullable=False)
-    mission_id = Column(Integer, ForeignKey('mission.mission_id'), nullable=False)
+    mission_id = Column(Integer, ForeignKey('missions.mission_id'), nullable=False)
     target_type_id = Column(Integer, ForeignKey('targettypes.target_type_id'), nullable=True)
     target_priority = Column(Integer, nullable=False)
 
