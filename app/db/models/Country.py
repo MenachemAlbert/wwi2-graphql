@@ -9,6 +9,6 @@ class Country(Base):
     country_id = Column(Integer, Sequence('country_id_seq'), primary_key=True)
     country_name = Column(String, unique=True, nullable=False)
 
-    cities = relationship("City", back_populates="country")
+    cities = relationship("City", back_populates="country", lazy="joined")
 
 

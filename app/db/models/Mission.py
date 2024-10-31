@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, Date, Float
+from sqlalchemy.orm import relationship
 
 from app.db.models import Base
 
@@ -15,3 +16,5 @@ class Mission(Base):
     aircraft_failed = Column(Float, nullable=True)
     aircraft_damaged = Column(Float, nullable=True)
     aircraft_lost = Column(Float, nullable=True)
+
+    targets = relationship("Target",back_populates="mission", lazy="joined")

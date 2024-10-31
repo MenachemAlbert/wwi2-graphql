@@ -9,6 +9,6 @@ class TargetType(Base):
     target_type_id = Column(Integer, Sequence('target_type_id_seq'), primary_key=True)
     target_type_name = Column(String, unique=True, nullable=False)
 
-    targets = relationship("Target", back_populates="target_type")
+    targets = relationship("Target", back_populates="target_type", lazy="joined")
 
 
