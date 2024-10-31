@@ -1,10 +1,10 @@
-from graphene import Mutation, Date, Float, Field
+from graphene import Mutation, Date, Float, Field, Int, Boolean, String
 from graphql import GraphQLError
 from returns.result import Success
 
 from app.db.models import Mission
 from app.gql.types.mission_type import MissionType
-from app.repository.mission_repository import create_mission
+from app.repository.mission_repository import create_mission, delete_mission
 
 
 class AddMission(Mutation):
@@ -33,3 +33,17 @@ class AddMission(Mutation):
             return AddMission(mission=new_mission.unwrap())
         else:
             raise Exception("can`t create mission")
+
+
+class DeleteMission(Mutation):
+    class Arguments:
+        mission_id = Int()
+
+    result = Field(Boolean)
+    message = Field(String)
+
+    @staticmethod
+    def mutate(root, info, mission_id):
+        result = delete_mission(mission_id)
+
+        return DeleteMission(result=True if isinstance(result, Success) else False, message=str(result))

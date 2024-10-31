@@ -25,3 +25,6 @@ class AddTarget(Mutation):
             return AddTarget(target=new_target.unwrap())
         else:
             raise Exception("can`t create target")
+
+
+
