@@ -2,10 +2,9 @@ from datetime import date
 from typing import List
 
 from returns.maybe import Maybe
-from sqlalchemy import and_
 
 from app.db.database import session_maker
-from app.db.models import Mission, Country, Target, City
+from app.db.models import Mission, Country, Target, City, TargetType
 
 
 def get_mission_by_id(mission_id: int) -> Maybe[Mission]:
@@ -31,3 +30,11 @@ def get_missions_by_target_industry(target_industry: str) -> List[Mission]:
         return (session.query(Mission)
                 .join(Mission.targets)
                 .filter(Target.target_industry == target_industry).all())
+
+
+def get_missions_by_target_type(target_type: str) -> List[Mission]:
+    with session_maker() as session:
+        return (session.query(Mission)
+                .join(Mission.targets)
+                .join(Target.target_type)
+                .filter(TargetType.target_type_name == target_type).all())
